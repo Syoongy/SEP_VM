@@ -31,6 +31,9 @@
             List<Furniture> furnitures = (List<Furniture>) (session.getAttribute("furnitures"));
             /*define your variables here*/
             /*set your variables here*/
+            try {
+                for (int i = 0; i <= furnitures.size(); i++) {
+                   if (furnitures.get(i).getSKU().equals(sku)) {
         %>
         <div class="body">
             <jsp:include page="menu2.jsp" />
@@ -51,37 +54,37 @@
                             <div class="col-md-6">
                                 <div>
                                     <div class="thumbnail">
-                                        <img alt="" class="img-responsive img-rounded" src="../../..<%/*insert code here*/%>">
+                                        <img alt="" class="img-responsive img-rounded" src="../../..<%=furnitures.get(i).getImageUrl()%>">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="summary entry-summary">
-                                    <h2 class="shorter"><strong>Insert category name</strong></h2>
-                                    <%
-                                        if (isMemberLoggedIn == true) {
-                                    %>
+                                    <h2 class="shorter"><strong><%=furnitures.get(i).getName()%></strong></h2>
+                                            <%
+                                                if (isMemberLoggedIn == true) {
+                                            %>
                                     <form action="../../ECommerce_AddFurnitureToListServlet">
-                                        <input type="hidden" name="id" value="<%/*insert code here*/%>"/>
-                                        <input type="hidden" name="SKU" value="<%/*insert code here*/%>"/>
-                                        <input type="hidden" name="price" value="<%/*insert code here*/%>"/>
-                                        <input type="hidden" name="name" value="<%/*insert code here*/%>"/>
-                                        <input type="hidden" name="imageURL" value="<%/*insert code here*/%>"/>
-                                        <input type="submit" name="btnEdit" class="btn btn-primary" id="<%/*insert code here*/%>" value="Add To Cart"/>
+                                        <input type="hidden" name="id" value="<%=furnitures.get(i).getId()%>"/>
+                                        <input type="hidden" name="SKU" value="<%=furnitures.get(i).getSKU()%>"/>
+                                        <input type="hidden" name="price" value="<%=furnitures.get(i).getPrice()%>"/>
+                                        <input type="hidden" name="name" value="<%=furnitures.get(i).getName()%>"/>
+                                        <input type="hidden" name="imageURL" value="<%=furnitures.get(i).getImageUrl()%>"/>
+                                        <input type="submit" name="btnEdit" class="btn btn-primary" id="<%=furnitures.get(i).getId()%>" value="Add To Cart"/>
                                     </form>
                                     <%}%>
-                                    <p class="price"><h4 class="amount"><%/*insert code here*/%></h4></p>
+                                    <p class="price"><h4 class="amount"><%=furnitures.get(i).getPrice()%></h4></p>
                                     <strong>Description</strong>
                                     <p class="taller">
-                                        <%/*insert code here*/%>
+                                        <%=furnitures.get(i).getDescription()%>
                                     </p>
                                     <p>
-                                        Height: <%/*insert code here*/%><br/>
-                                        Length: <%/*insert code here*/%><br/>
-                                        Width: <%/*insert code here*/%>
+                                        Height: <%=furnitures.get(i).getHeight()%><br/>
+                                        Length: <%=furnitures.get(i).getLength()%><br/>
+                                        Width: <%=furnitures.get(i).getWidth()%>
                                     </p>
                                     <div class="product_meta">
-                                        <span class="posted_in">Category: <a rel="tag" href="../../ECommerce_FurnitureCategoryServlet?cat=<%/*insert code here*/%>"><%/*insert code here*/%></a></span>
+                                        <span class="posted_in">Category: <a rel="tag" href="../../ECommerce_FurnitureCategoryServlet?cat=<%=URLEncoder.encode(furnitures.get(i).getCategory())%>"><%=furnitures.get(i).getCategory()%></a></span>
                                     </div>
                                     <br/><br/>
 
@@ -91,7 +94,14 @@
                                                 View Item Availability<br/>
                                                 <select style="color: black;" name="storeID">
                                                     <option> </option>
-                                                    <%String storeIDstring = (request.getParameter("storeID"));
+                                                    <%
+                                                                }
+                                                            }
+                                                        } catch (Exception ex) {
+                                                            System.out.println(ex);
+                                                            ex.printStackTrace();
+                                                        }
+                                                        String storeIDstring = (request.getParameter("storeID"));
                                                         Long storeID = 1L;
                                                         if (storeIDstring != null) {
                                                             storeID = Long.parseLong(storeIDstring);
